@@ -61,12 +61,15 @@ public class SkyRequest {
             HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(HTTP_DATA_FACTORY, request);
             decoder.getBodyHttpDatas().forEach(this::parseData);
         }
-
-        log.info("uri {}",uri);
-        log.info("method {}",method);
-        log.info("headers {}",headers);
-        log.info("body {}",body);
-
+        //解析cookie
+        String cookie = headers.get("Cookie");
+        String[] reqCookies = cookie.split("&");
+        String[] cookieData;
+        for (String cookieTemp:reqCookies){
+            cookieData = cookieTemp.split(":");
+            cookies.put(cookieData[0],cookieData[1]);
+        }
+        //处理完成
     }
 
     private void parseData(InterfaceHttpData data) {
