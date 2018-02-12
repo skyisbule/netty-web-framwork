@@ -1,7 +1,9 @@
 package cn.skyisbule.mvc.handler;
 
+import cn.skyisbule.mvc.http.SkyRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,13 +15,15 @@ public class Requester implements Runnable{
     private final ChannelHandlerContext ctx;
     private final FullHttpRequest       req;
 
-    Requester(ChannelHandlerContext ctx, FullHttpRequest request){
+    public Requester(ChannelHandlerContext ctx, FullHttpRequest request){
         this.ctx=ctx;
         this.req=request;
     }
 
     @Override
     public void run(){
+
+        SkyRequest request = SkyRequest.build(req);
 
     }
 }

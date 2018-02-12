@@ -16,5 +16,12 @@ public class sky {
         return new sky();
     }
 
+    private void setPort(int port){
+        environment.setPort(port);
+    }
+
+    private void setHost(String address){
+        environment.setAddress(address);
+    }
 
 }

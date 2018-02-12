@@ -1,5 +1,6 @@
 package cn.skyisbule.server.netty;
 
+import cn.skyisbule.mvc.handler.Requester;
 import com.sun.corba.se.impl.presentation.rmi.ExceptionHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,7 +18,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) {
-
+        new Requester(ctx, fullHttpRequest.copy()).run();
     }
 
     @Override

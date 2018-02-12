@@ -3,7 +3,6 @@ package cn.skyisbule.mvc.http;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpConstants;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.handler.codec.http.QueryStringDecoder;
@@ -18,9 +17,10 @@ import java.util.Map;
 
 /**
  * Created by skyisbule on 2018/2/12.
+ * Http请求的封装类
  */
 @Slf4j
-public class HttpRequest {
+public class SkyRequest {
 
     private static final HttpDataFactory HTTP_DATA_FACTORY = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
 
@@ -89,6 +89,12 @@ public class HttpRequest {
 
     private void parseFileUpload(FileUpload fileUpload) throws IOException {
 
+    }
+
+    public static SkyRequest build(FullHttpRequest fullHttpRequest){
+        SkyRequest request = new SkyRequest();
+        request.init(fullHttpRequest);
+        return request;
     }
 
 }

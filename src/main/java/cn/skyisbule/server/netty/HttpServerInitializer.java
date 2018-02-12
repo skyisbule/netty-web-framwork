@@ -21,7 +21,7 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast(new HttpServerExpectContinueHandler());
         p.addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
         p.addLast(new ChunkedWriteHandler());
-
+        p.addLast(new HttpServerHandler());
 
     }
 
