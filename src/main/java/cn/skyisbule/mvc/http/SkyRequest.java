@@ -43,6 +43,7 @@ public class SkyRequest {
         //处理请求头
         HttpHeaders httpHeaders = request.headers();
         if (httpHeaders.size()>0){
+            headers = new HashMap<>();
             httpHeaders.forEach(head->headers.put(head.getKey(),head.getValue()));
         }else {
             log.warn("未检测到请求头 请求路径：{}",uri);
@@ -60,6 +61,12 @@ public class SkyRequest {
             HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(HTTP_DATA_FACTORY, request);
             decoder.getBodyHttpDatas().forEach(this::parseData);
         }
+
+        log.info("uri {}",uri);
+        log.info("method {}",method);
+        log.info("headers {}",headers);
+        log.info("body {}",body);
+
     }
 
     private void parseData(InterfaceHttpData data) {

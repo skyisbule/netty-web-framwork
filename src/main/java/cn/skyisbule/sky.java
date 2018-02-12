@@ -1,6 +1,7 @@
 package cn.skyisbule;
 
 import cn.skyisbule.config.Environment;
+import cn.skyisbule.server.netty.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,12 +17,24 @@ public class sky {
         return new sky();
     }
 
-    private void setPort(int port){
-        environment.setPort(port);
+    public void run() throws Exception {
+
+        new HttpServer().start(this);
+
     }
 
-    private void setHost(String address){
+    public sky setPort(int port){
+        environment.setPort(port);
+        return this;
+    }
+
+    public sky setHost(String address){
         environment.setAddress(address);
+        return this;
+    }
+
+    public Environment getEnvironment(){
+        return environment;
     }
 
 }

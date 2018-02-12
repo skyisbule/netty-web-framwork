@@ -15,8 +15,10 @@ public class Environment {
 
     }
 
-    public String address = "127.0.0.1";
-    public int port = 80;
+    public String address      =  "127.0.0.1";
+    public int port            =  80;
+    public int BossThreadCount =  1;
+    public int WorkThreadCount =  4;
 
     public static Environment create(){
         return new Environment();

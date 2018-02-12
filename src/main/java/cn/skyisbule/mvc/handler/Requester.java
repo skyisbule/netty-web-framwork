@@ -23,6 +23,8 @@ public class Requester implements Runnable{
     @Override
     public void run(){
 
+        System.out.println("标记哦");
+
         SkyRequest request = SkyRequest.build(req);
 
     }
