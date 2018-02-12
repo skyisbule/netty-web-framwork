@@ -1,6 +1,7 @@
 package cn.skyisbule.mvc.handler;
 
 import cn.skyisbule.mvc.http.SkyRequest;
+import cn.skyisbule.mvc.http.SkyResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpRequest;
@@ -23,9 +24,13 @@ public class Requester implements Runnable{
     @Override
     public void run(){
 
-        System.out.println("标记哦");
+        SkyRequest request  = SkyRequest.build(req);
+        SkyResponse response = SkyResponse.build(ctx);
+        response.write();
 
-        SkyRequest request = SkyRequest.build(req);
+    }
+
+    public void writeFinish(){
 
     }
 }

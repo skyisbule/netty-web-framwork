@@ -63,11 +63,14 @@ public class SkyRequest {
         }
         //解析cookie
         String cookie = headers.get("Cookie");
-        String[] reqCookies = cookie.split("&");
-        String[] cookieData;
-        for (String cookieTemp:reqCookies){
-            cookieData = cookieTemp.split(":");
-            cookies.put(cookieData[0],cookieData[1]);
+        if (cookie!=null){
+            System.out.println(cookie);
+            String[] reqCookies = cookie.split("&");
+            String[] cookieData;
+            for (String cookieTemp:reqCookies){
+                cookieData = cookieTemp.split(":");
+                cookies.put(cookieData[0],cookieData[1]);
+            }
         }
         //处理完成
     }
