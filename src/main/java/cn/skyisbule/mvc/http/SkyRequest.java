@@ -101,7 +101,7 @@ public class SkyRequest {
     }
 
     private void parseFileUpload(FileUpload fileUpload) throws IOException {
-
+        //todo 后期再做文件上传的处理
     }
 
     public static SkyRequest build(FullHttpRequest fullHttpRequest){
