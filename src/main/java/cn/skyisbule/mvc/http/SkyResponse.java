@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ public class SkyResponse {
     private ChannelHandlerContext ctx         = null;
     private CharSequence          contentType = null;
     private CharSequence          dateString  = null;
+    private String                content     = null;
 
     public void addCookie(){
 
@@ -36,19 +38,36 @@ public class SkyResponse {
         //响应头
         //response.headers().set(getHeaders());
         String content = "<html><body><h1>haha</h1></body></html>";
-        FullHttpResponse httpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, OK, Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
+
+        FullHttpResponse httpResponse = this.build();
 
         ctx.writeAndFlush(httpResponse);
-        ctx.close();
+
     }
 
-    public static SkyResponse build(ChannelHandlerContext ctx){
+    /**
+     *  创建一个自己，构造一个基于（netty的DefaultFullHttpResponse）的Response对象
+     */
+    public static SkyResponse buildSelf(ChannelHandlerContext ctx){
         SkyResponse response = new SkyResponse();
         response.ctx=ctx;
         return response;
     }
 
-    public void writeFinish(){
-
+    /**
+     * 写完毕 断开连接
+     */
+    public void writeFinish(ChannelHandlerContext ctx){
+        ctx.close();
     }
+
+    /**
+     * 通过自身数据构造一个需要写回用户的Response对象，
+     */
+    private FullHttpResponse build(){
+        FullHttpResponse httpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, OK, Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
+
+        return httpResponse;
+    }
+
 }
