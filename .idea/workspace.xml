@@ -766,7 +766,7 @@
       <updated>1518427760034</updated>
       <workItem from="1518427765416" duration="18046000" />
       <workItem from="1518449702011" duration="663000" />
-      <workItem from="1518490608788" duration="13713000" />
+      <workItem from="1518490608788" duration="13719000" />
     </task>
     <task id="LOCAL-00001" summary="初始化工程">
       <created>1518428216338</created>
@@ -859,11 +859,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518529543507</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ioc的注解">
+      <created>1518529576606</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1518529576606</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32422000" />
+    <option name="totallyTimeSpent" value="32428000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="419" y="105" width="1251" height="822" extended-state="0" />
