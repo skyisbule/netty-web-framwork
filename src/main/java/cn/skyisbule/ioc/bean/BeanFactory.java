@@ -1,10 +1,13 @@
 package cn.skyisbule.ioc.bean;
 
 import cn.hutool.core.util.ReflectUtil;
+import cn.skyisbule.ioc.annotation.Ioc;
 import cn.skyisbule.ioc.annotation.Url;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,7 @@ import java.util.Map;
  */
 @Setter
 @Getter
+@Slf4j
 public class BeanFactory {
 
     public static Map<String,Object> instanceMap = new HashMap<>();
@@ -41,6 +45,30 @@ public class BeanFactory {
                     String ReqUrl = method.getAnnotation(Url.class).value();
                     //todo  这里要对url进行一个基本的判断和处理
                     methodMap.put(ReqUrl,method);
+                    log.info("成功提取到路由：{}",ReqUrl);
+                }
+            }
+        }
+    }
+
+    //注册bean
+    public void Di(){
+        if (instanceMap.isEmpty())
+            return;
+        //遍历一下
+        for (Map.Entry<String,Object> entry : instanceMap.entrySet()){
+            Object o = entry.getValue();
+            Field[] fields = ReflectUtil.getFields(o.getClass());
+            for (Field field : fields){
+                //如果被Ioc注解  意味着需要注入bean
+                if (field.isAnnotationPresent(Ioc.class)){
+                    String fieldName = field.getType().getName();
+                    if (instanceMap.containsKey(fieldName)) {
+                        log.info("成功注入bean：{}",fieldName);
+                        ReflectUtil.setFieldValue(o, field, instanceMap.get(fieldName));
+                    }else {
+                        log.error("注入bean失败:{}",fieldName);
+                    }
                 }
             }
         }

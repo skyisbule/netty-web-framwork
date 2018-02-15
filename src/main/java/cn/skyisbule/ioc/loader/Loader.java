@@ -2,16 +2,11 @@ package cn.skyisbule.ioc.loader;
 
 import cn.skyisbule.ioc.annotation.Controller;
 import cn.skyisbule.ioc.annotation.Service;
-import cn.skyisbule.ioc.annotation.Url;
 import cn.skyisbule.ioc.bean.BeanFactory;
-import cn.skyisbule.server.Server;
-import cn.skyisbule.util.UrlClassLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by skyisbule on 2018/2/13.
@@ -28,11 +23,12 @@ public class Loader {
     public void init() throws Exception {
         //获取扫描路径 即项目根目录
         //getPath();
-        //ceshi
+        //暂且用测试类
         MainClassPath = "C:\\Users\\ZDNF\\Desktop\\temp\\netty_web_framework\\target\\test-classes";
         //扫描类
         scan(MainClassPath);
-
+        beanFactory.collectMethod();
+        beanFactory.Di();
     }
 
 
@@ -45,7 +41,7 @@ public class Loader {
             if (eachFile.isDirectory()){
                 scan(path+"\\"+eachFileName);
             }else if (eachFileName.endsWith(".class")){
-                log.info("成功扫描到bean:{}",eachFileName);
+                //log.info("成功扫描到bean:{}",eachFileName);
                 //新建一个类的实例
                 newInstance(path,eachFileName);
             }
@@ -56,13 +52,14 @@ public class Loader {
     //新建一个类的实例
     private void newInstance(String classPath,String fileName) throws Exception{
         //先把前边的路径去掉 即:将 c:\\~\\desktop\\cn.skyisbule.test.class转换为cn.skyisbule.test
-        String packageName = classPath.replace(MainClassPath,"").replace("\\",".");
+        String packageName = classPath.replace(MainClassPath,"").replace("\\",".").concat(".");
         //去掉.class后缀，拿到类名
         String className = fileName.substring(0,fileName.length()-6);
         String packageWithClassName = packageName.concat(className);
+        //去掉开头的那个"."
         if (packageWithClassName.startsWith("."))
             packageWithClassName = packageWithClassName.substring(1);
-        Class clazz = Class.forName(packageName+"."+className);
+        Class clazz = Class.forName(packageWithClassName);
         //检查有没有Controller或者Service注解
         if (clazz.isAnnotationPresent(Controller.class)||
                 clazz.isAnnotationPresent(Service.class)) {
