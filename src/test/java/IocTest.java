@@ -9,9 +9,6 @@ public class IocTest {
 
     public static void main(String[] a){
 
-        //System.out.println(IocTest.class.getResource("").toString());
-
-
         try {
             new Loader().init();
         } catch (Exception e) {

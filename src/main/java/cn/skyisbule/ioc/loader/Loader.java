@@ -1,7 +1,10 @@
 package cn.skyisbule.ioc.loader;
 
+import cn.skyisbule.ioc.annotation.Controller;
+import cn.skyisbule.ioc.annotation.Service;
 import cn.skyisbule.ioc.annotation.Url;
 import cn.skyisbule.ioc.bean.BeanFactory;
+import cn.skyisbule.server.Server;
 import cn.skyisbule.util.UrlClassLoader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class Loader {
 
+    BeanFactory beanFactory = new BeanFactory();
 
     //项目目录
     String MainClassPath;
@@ -59,9 +63,13 @@ public class Loader {
         if (packageWithClassName.startsWith("."))
             packageWithClassName = packageWithClassName.substring(1);
         Class clazz = Class.forName(packageName+"."+className);
-        if (clazz != null)
-            log.debug("成功实例化对象:{}",className);
-
+        //检查有没有Controller或者Service注解
+        if (clazz.isAnnotationPresent(Controller.class)||
+                clazz.isAnnotationPresent(Service.class)) {
+            log.debug("成功实例化对象:{}", className);
+            //创建对象实例，并添加进beanFactory
+            beanFactory.addInstance(packageWithClassName, clazz.newInstance());
+        }
     }
 
     //获取项目文件根目录 方便扫描
