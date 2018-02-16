@@ -28,7 +28,6 @@ public class Requester implements Runnable{
 
         SkyRequest request   = SkyRequest.build(req);
         SkyResponse response = SkyResponse.buildSelf(ctx);
-
         response.write();
 
     }

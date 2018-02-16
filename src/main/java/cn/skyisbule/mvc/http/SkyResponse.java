@@ -37,7 +37,7 @@ public class SkyResponse {
     }
 
     public void write(){
-        this.setContent("<html><body><h1>hello world</h1></body></html>");
+        //this.setContent("<html><body><h1>hello world</h1></body></html>");
         //创建一个返回对象
         FullHttpResponse httpResponse = this.build();
         //返回给用户
