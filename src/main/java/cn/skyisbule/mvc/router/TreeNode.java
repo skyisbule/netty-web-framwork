@@ -32,12 +32,29 @@ public class TreeNode {
         return this.name;
     }
 
-    public boolean add(TreeNode node){
-        child.add(node);
-        return true;
+    public TreeNode add(TreeNode fatherNode,TreeNode addNode){
+        //处理url模板的情况 比如 {id}  则用*进行占位
+        if (addNode.getName().startsWith("{")){
+            addNode.setName("*");
+        //如果是通配符 比如  /user/**/id 则可以匹配 /user/sky/11/id
+        }else if(addNode.getName().equals("**")){
+            fatherNode.addRoot(addNode);
+            return addNode;
+        }
+        fatherNode.addRoot(addNode);
+        return addNode;
     }
 
-    public boolean addOne(TreeNode node){
+    private boolean isHadString(String target) {
+        for (TreeNode temp : child) {
+            if (temp.getName().equals(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean addRoot(TreeNode node){
         child.add(node);
         return true;
     }

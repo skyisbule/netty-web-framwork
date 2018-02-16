@@ -31,6 +31,8 @@ public class Router {
         TreeNode fatherNode = rootNode;
         //遍历一下每个节点 构造tree
         for (Map.Entry<String,Method> entry : methodMap.entrySet()){
+            //重置fatherNode
+            fatherNode = rootNode;
             String url = checkRoute(entry.getKey());
             //先处理一下重复问题
             if (!routesSet.add(url)){
@@ -43,13 +45,14 @@ public class Router {
             if (count==1){
                 TreeNode tempNode = new TreeNode(url.substring(1),url);
                 log.info("成功构造url树节点:{}",url);
+                fatherNode.addRoot(tempNode);
                 return;
             }
             //如果不止一个节点
             String nodes[] = url.substring('/').split("/");
             for (String node : nodes){
                 TreeNode tempNode = new TreeNode(node,url);
-                fatherNode.add(tempNode);
+                tempNode =  fatherNode.add(fatherNode,tempNode);
                 //切换父节点
                 fatherNode = tempNode;
             }
@@ -62,14 +65,6 @@ public class Router {
         if (url.length()==0){
             url = "/";
         }
-        //拿到有多少节
-        int nodes = getMarkCount(url);
-        //如果就一节
-        if (nodes==1){
-            TreeNode node = new TreeNode(url.substring(1),url);
-            rootNode.add(node);
-        }
-
 
         return url;
     }
