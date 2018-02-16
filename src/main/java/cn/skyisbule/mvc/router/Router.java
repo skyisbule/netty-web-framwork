@@ -43,10 +43,16 @@ public class Router {
             int count = getMarkCount(url);
             //如果只需要处理一次 比如 /user
             if (count==1){
+                //如果标记是 “/” 单独处理一下 代表首页
+                if (url.equals("/")){
+                    //设置一下代表首页请求不是空的
+                    rootNode.setFullUrl("/");
+                    continue;
+                }
                 TreeNode tempNode = new TreeNode(url.substring(1),url);
                 log.info("成功构造url树节点:{}",url);
                 fatherNode.addRoot(tempNode);
-                return;
+                continue;
             }
             //如果不止一个节点
             String nodes[] = url.substring('/').split("/");
