@@ -35,6 +35,7 @@ public class Router {
             handle.setUrl(url);
             handle.setMethod(methodMap.get(url));
             handle.setReqMethod(methodMap.get(url).getAnnotation(Url.class).method());
+            handle.set404(false);
             return handle;
         }
         //todo 否则则是模板，走一遍tree。

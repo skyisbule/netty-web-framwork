@@ -17,5 +17,6 @@ public class RouteHandle {
     public String url;
     public Method method;
     public String ReqMethod;
+    public boolean is404 = true;
 
 }

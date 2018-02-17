@@ -2,6 +2,7 @@ package cn.skyisbule.mvc.handler;
 
 import cn.skyisbule.config.Environment;
 import cn.skyisbule.ioc.bean.BeanFactory;
+import cn.skyisbule.mvc.binding.DataBinder;
 import cn.skyisbule.mvc.http.SkyRequest;
 import cn.skyisbule.mvc.http.SkyResponse;
 import cn.skyisbule.mvc.router.RouteHandle;
@@ -10,6 +11,9 @@ import cn.hutool.core.util.ReflectUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Created by skyisbule on 2018/2/12.
@@ -23,6 +27,7 @@ public class Requester implements Runnable{
     private final ChannelHandlerContext ctx;
     private final FullHttpRequest       req;
     Router router = Environment.router;
+    DataBinder binder = new DataBinder();
 
     public Requester(ChannelHandlerContext ctx, FullHttpRequest request){
         this.ctx=ctx;
@@ -34,14 +39,31 @@ public class Requester implements Runnable{
         //首先构造两个http类 用作处理
         SkyRequest request   = SkyRequest.build(req);
         SkyResponse response = SkyResponse.buildSelf(ctx);
-
         String url = request.getUri();
         log.info("收到请求：{}",url);
 
         //拿到开发者类
         RouteHandle handle= router.getHandler(url);
+        //如果是404
+        if (handle.is404){
+            response.setStatus(404);
+            response.setContent("404 not found");
+            response.write();
+            writeFinish();
+            return;
+        }
+        //todo 这里要判断一下返回类型是否为static类型 即静态文件
 
-        Object result = ReflectUtil.invoke(BeanFactory.getObjByUrl(url),handle.getMethod());
+
+        Object result = "hello w";
+
+        try {
+            Object[] args =  binder.getResult(request,BeanFactory.getObjByUrl(url),handle.getMethod());
+            result = ReflectUtil.invoke(BeanFactory.getObjByUrl(url),handle.getMethod(),args);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         response.setContent(result.toString());
 

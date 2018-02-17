@@ -40,7 +40,9 @@ public class SkyRequest {
 
     private void init(FullHttpRequest request){
         //请求路径
-        this.uri = request.uri();
+        this.url = request.uri();
+        //如果有get参数，则去掉后边的传参部分 得到url
+        this.uri = getUriByUrl(url);
         this.method = request.method().name();
         //处理请求头
         HttpHeaders httpHeaders = request.headers();
@@ -75,6 +77,12 @@ public class SkyRequest {
             }
         }
         //处理完成
+    }
+
+    private String getUriByUrl(String url){
+        if (url.indexOf("?")>1)
+            return url.substring(0,url.indexOf("?"));
+        return url;
     }
 
     private void parseData(InterfaceHttpData data) {
