@@ -1,5 +1,7 @@
 package cn.skyisbule.config;
 
+import cn.skyisbule.mvc.router.RouteHandle;
+import cn.skyisbule.mvc.router.Router;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +21,7 @@ public class Environment {
     public int port            =  80;
     public int BossThreadCount =  1;
     public int WorkThreadCount =  4;
+    public static Router router;
 
     public static Environment create(){
         return new Environment();

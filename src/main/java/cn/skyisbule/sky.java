@@ -34,6 +34,7 @@ public class sky {
         log.info("开始初始化路由");
         router.initRoute();
         log.info("初始化路由完成");
+        Environment.router=router;
 
         log.info("开启服务器");
         new HttpServer().start(this);

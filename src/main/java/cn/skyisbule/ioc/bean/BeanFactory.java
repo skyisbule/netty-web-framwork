@@ -25,6 +25,8 @@ public class BeanFactory {
 
     public static Map<String,Method> methodMap   = new HashMap<>();
 
+    public static Map<String,Object> urlObj      = new HashMap<>();
+
     public void addInstance(String className,Object o){
         instanceMap.put(className,o);
     }
@@ -46,9 +48,15 @@ public class BeanFactory {
                     ReqUrl = checkUrl(ReqUrl);
                     methodMap.put(ReqUrl,method);
                     log.info("成功提取到路由：{}",ReqUrl);
+                    //将url->object添加进map 方便后期根据url取出对象
+                    urlObj.put(ReqUrl,o);
                 }
             }
         }
+    }
+
+    public static Object getObjByUrl(String url){
+        return urlObj.get(url);
     }
 
     //对开发者写的url进行基本的判断和修改

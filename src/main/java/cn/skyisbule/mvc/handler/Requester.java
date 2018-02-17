@@ -1,7 +1,12 @@
 package cn.skyisbule.mvc.handler;
 
+import cn.skyisbule.config.Environment;
+import cn.skyisbule.ioc.bean.BeanFactory;
 import cn.skyisbule.mvc.http.SkyRequest;
 import cn.skyisbule.mvc.http.SkyResponse;
+import cn.skyisbule.mvc.router.RouteHandle;
+import cn.skyisbule.mvc.router.Router;
+import cn.hutool.core.util.ReflectUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +22,7 @@ public class Requester implements Runnable{
 
     private final ChannelHandlerContext ctx;
     private final FullHttpRequest       req;
+    Router router = Environment.router;
 
     public Requester(ChannelHandlerContext ctx, FullHttpRequest request){
         this.ctx=ctx;
@@ -25,9 +31,20 @@ public class Requester implements Runnable{
 
     @Override
     public void run(){
-
+        //首先构造两个http类 用作处理
         SkyRequest request   = SkyRequest.build(req);
         SkyResponse response = SkyResponse.buildSelf(ctx);
+
+        String url = request.getUri();
+        log.info("收到请求：{}",url);
+
+        //拿到开发者类
+        RouteHandle handle= router.getHandler(url);
+
+        Object result = ReflectUtil.invoke(BeanFactory.getObjByUrl(url),handle.getMethod());
+
+        response.setContent(result.toString());
+
         response.write();
 
     }
