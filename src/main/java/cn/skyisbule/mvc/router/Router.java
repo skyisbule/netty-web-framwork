@@ -34,6 +34,10 @@ public class Router {
             //重置fatherNode
             fatherNode = rootNode;
             String url = checkRoute(entry.getKey());
+            //如果不是模板的话直接退出
+            if (isTemplate(url)){
+                continue;
+            }
             //先处理一下重复问题
             if (!routesSet.add(url)){
                 log.error("检测到有重复url:{}",url);
@@ -71,9 +75,19 @@ public class Router {
         if (url.length()==0){
             url = "/";
         }
-
         return url;
     }
+
+    //判断是否是url模板格式
+    private boolean isTemplate(String url){
+        char[] chars = url.toCharArray();
+        for (char temp : chars){
+            if (temp=='*'||temp=='{')
+                return true;
+        }
+        return false;
+    }
+
 
     //用来获得一个url里有多少个节点
     private int getMarkCount(String url){

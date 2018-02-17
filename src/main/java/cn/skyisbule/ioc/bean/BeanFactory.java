@@ -43,13 +43,31 @@ public class BeanFactory {
                 if (method.isAnnotationPresent(Url.class)){
                     //拿到注解的URL
                     String ReqUrl = method.getAnnotation(Url.class).value();
-                    //todo  这里要对url进行一个基本的判断和处理
+                    ReqUrl = checkUrl(ReqUrl);
                     methodMap.put(ReqUrl,method);
                     log.info("成功提取到路由：{}",ReqUrl);
                 }
             }
         }
     }
+
+    //对开发者写的url进行基本的判断和修改
+    private String checkUrl(String url){
+        //先判断是不是空
+        if (url.length()==0){
+            return "/";
+        }
+        //如果不是以'/'开头的，加上去
+        if (!url.startsWith("/")){
+            url = "/" + url;
+        }
+        //如果结尾写了'/' 去掉
+        if (url.endsWith("/")&&url.length()>2){
+            url = url.substring(0,url.length()-1);
+        }
+        return url;
+    }
+
 
     //注册bean
     public void Di(){
