@@ -1,5 +1,6 @@
 package cn.skyisbule.mvc.router;
 
+import cn.skyisbule.ioc.annotation.Url;
 import cn.skyisbule.ioc.bean.BeanFactory;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,20 @@ public class Router {
 
     public void initRoute(){
         creatTree();
+    }
+
+    //用来返回一个url映射结果
+    public RouteHandle getHandler(String url){
+        RouteHandle handle = new RouteHandle();
+        //先判断否是直接映射
+        if (methodMap.containsKey(url)){
+            handle.setUrl(url);
+            handle.setMethod(methodMap.get(url));
+            handle.setReqMethod(methodMap.get(url).getAnnotation(Url.class).method());
+            return handle;
+        }
+        //todo 否则则是模板，走一遍tree。
+        return handle;
     }
 
     private void creatTree(){
