@@ -1,10 +1,10 @@
 package test.httpServer.annotation;
 
-import cn.skyisbule.ioc.annotation.Controller;
-import cn.skyisbule.ioc.annotation.Ioc;
-import cn.skyisbule.ioc.annotation.Service;
-import cn.skyisbule.ioc.annotation.Url;
+import cn.skyisbule.ioc.annotation.*;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by skyisbule on 2018/2/15.
@@ -17,12 +17,12 @@ public class ControllerTest {
     ServiceTest test;
 
     @Url(value = "/index")
-    public String hello(String a,int b,user user){
-        log.debug(a);
-        log.debug(String.valueOf(b));
-        log.debug(user.getName());
-
-        return test.get();
+    @Json
+    public void hello(){
+        Map map = new HashMap();
+        map.put("h","s");
+        map.put("a","sd");
+        //return map;
     }
 
 }

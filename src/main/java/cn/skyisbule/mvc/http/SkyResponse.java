@@ -43,7 +43,7 @@ public class SkyResponse {
         //返回给用户
         ctx.writeAndFlush(httpResponse);
         //断开连接
-        writeFinish(ctx);
+        //writeFinish(ctx);
 
     }
 
@@ -79,6 +79,8 @@ public class SkyResponse {
                         status,
                         Unpooled.copiedBuffer(content, CharsetUtil.UTF_8)
                 );
+
+        httpResponse.headers().add(headers);
 
         return httpResponse;
     }

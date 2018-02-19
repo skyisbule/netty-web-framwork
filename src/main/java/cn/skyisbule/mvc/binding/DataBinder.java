@@ -1,6 +1,7 @@
 package cn.skyisbule.mvc.binding;
 
 import cn.hutool.core.util.ReflectUtil;
+import cn.skyisbule.ioc.annotation.Json;
 import cn.skyisbule.ioc.bean.BeanFactory;
 import cn.skyisbule.mvc.http.SkyRequest;
 import lombok.extern.slf4j.Slf4j;
