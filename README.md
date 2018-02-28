@@ -11,7 +11,7 @@ JDK8
 直接导入jar包即可。
 # 快速入门
 随便编写一个类
-```
+```java
 @Controller
 public class RequestTest {
 
@@ -31,7 +31,7 @@ public class RequestTest {
 # 完整功能列表
 ## 请求映射
 为一个类加上@Controller注解，在方法上加上@Url注解。
-```
+```java
 @Url("/")
 public String hello(){
    return "hello world";
@@ -47,14 +47,14 @@ public String hello(){
 ## 获取请求参数
 获取请求参数有两种方法：
 ### 直接传参
-```
+```java
 @Url("/login")
 public String login(String id,String passwd){
    return id+passwd;
 }
 ```
 ### 绑定实体
-```
+```java
 public class User{
   String id;
   String passwd;
@@ -67,7 +67,7 @@ public String login(User user){
 }
 ```
 ### 获取原始请求类、响应类
-```
+```java
 @Url("/login")
 public void login(SkyRequest req,SkyResponse resp){
    //获取原始参数
@@ -78,7 +78,7 @@ public void login(SkyRequest req,SkyResponse resp){
 }
 ```
 ## 获取和设置cookie
-```
+```java
 //省略传参，传入SkyRequest req和SkyResponse resp
 //获取
 Cookie[] cookies = req.getCookies();
@@ -90,7 +90,7 @@ resp.addCookie(cookie);
 ```
 ## 静态资源
 关于静态资源，如果目录下有index.html，则
-```
+```java
 @Url("/")
 public String hello(){
    return "index.html";
@@ -103,7 +103,7 @@ public String hello(){
 ## 处理json
 使用@Json注解过的方法都会将返回值自动转为json格式，若使用@Json注解类，则代表该类下的所有方法都自动Json化。
 ## 重定向
-```
+```java
 @Url("/redirect")
 public String redirect(){
    return "redirect:http://www.baidu.com";
