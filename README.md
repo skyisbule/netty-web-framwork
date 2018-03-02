@@ -101,7 +101,8 @@ public String hello(){
 若static文件夹下有css文件夹，在下边有test.css<br>
 则访问localhost:9090/static/css/test.css即可看到内容。
 ## 处理json
-使用@Json注解过的方法都会将返回值自动转为json格式，若使用@Json注解类，则代表该类下的所有方法都自动Json化。
+使用@Json注解过的方法都会将返回值自动转为json格式.<br>
+若使用@Json注解类，则代表该类下的所有方法都自动Json化。
 ## 重定向
 ```java
 @Url("/redirect")
@@ -109,5 +110,17 @@ public String redirect(){
    return "redirect:http://www.baidu.com";
 }
 ```
+## 依赖注入
+在需要注入的类加上@Service注解。<br>
+然后在需要使用的类中
+```java
+public class test{
+
+  @Ioc
+  Di di;
+  //略
+}
+```
+加上Ioc注解即可直接调用。
 # todo
 拦截器，日志输出，模板引擎，session支持，上传文件。
